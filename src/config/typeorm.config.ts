@@ -12,13 +12,10 @@ export const ormConfig: TypeOrmModuleAsyncOptions = {
       username: configService.get('DB_USER'),
       password: configService.get('DB_PASSWORD'),
       database: configService.get('DB_DATABASE'),
-      synchronize: false, //TODO: edit to true later
+      synchronize: true, //TODO: edit to true later
       entities: ['dist/**/*.entity{.ts,.js}'],
 
     };
-
-    console.log(option);
-
     return option;
   },
 };
