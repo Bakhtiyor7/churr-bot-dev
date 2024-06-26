@@ -29,10 +29,16 @@ export class BotServiceTest {
             await this.handleReferral(ctx, startPayload);
         }
 
-        await ctx.reply(`👍 Hello nice to meet you ${firstName}`, {
+        const imageUrl = 'https://www.craiyon.com/image/oQafX1bpS6GkpCNRcVEjZw'
+
+        await ctx.replyWithPhoto(imageUrl, {
+            caption: `Welcome to SPACE CHURR! 🚀.
+            CHURR HUNTERS, Hop On Your Spaceship And Mine CHURR On Mysterious Plantes!
+            Your Participation will help maintain and grow SPACE CHURR.
+            Start your space adventure and Collect CHURR! 🌌.
+            Are you ready? Let's head to space and find some CHURR! ✨`,
             reply_markup: {
                 inline_keyboard: [
-
                     // [{ text: 'Next', callback_data: 'next' }],
                     [{ text: '🎮 Play Game', url: `t.me/spacechurrBot/churrspace` }],
                     [{ text: '👬 Referral', callback_data: 'get-referral-code' }],
@@ -40,8 +46,9 @@ export class BotServiceTest {
                         { text: 'Telegram', callback_data: 'btn-2' }],
                 ],
             },
-        });
-    }
+        })
+        };
+
 
     getStartPayload(ctx: Context): string | null {
         if (ctx.message && 'text' in ctx.message) {
@@ -70,7 +77,15 @@ export class BotServiceTest {
 
         const referralCode = user.userId.toString();
         const referralLink = `https://t.me/${this.botUsername}?start=${referralCode}`;
-        await ctx.reply(`Your referral link is: ${referralLink}`);
+        await ctx.reply(`Invite friends to play Space Churr together!
+        
+        – Your Personal Link: ${referralLink}`, {
+            reply_markup: {
+                inline_keyboard: [
+                    [{text: 'Invite Friends', switch_inline_query: referralLink}]
+                ]
+            }
+        });
     }
 
     async handleReferral(ctx: Context, referralCode: string) {
