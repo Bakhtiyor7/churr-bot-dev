@@ -10,6 +10,9 @@ export class User {
   @Column('bigint')
   userId: number;
 
+  @Column()
+  userName: string
+
   @Column({ nullable: true } )
   referredBy: number;
 

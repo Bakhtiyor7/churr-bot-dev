@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 @Update()
 @Injectable()
 export class BotServiceTest {
-    private botUsername = 'churr_referral_bot'; // replace with your actual bot username
+    private botUsername = 'churr_referral_bot';
 
     constructor(
         @InjectRepository(User)
@@ -32,7 +32,7 @@ export class BotServiceTest {
         const imageUrl = 'https://www.craiyon.com/image/oQafX1bpS6GkpCNRcVEjZw'
 
         await ctx.replyWithPhoto(imageUrl, {
-            caption: `Welcome to SPACE CHURR! 🚀.
+            caption: `Welcome to SPACE CHURR ${firstName}! 🚀.
             CHURR HUNTERS, Hop On Your Spaceship And Mine CHURR On Mysterious Plantes!
             Your Participation will help maintain and grow SPACE CHURR.
             Start your space adventure and Collect CHURR! 🌌.
@@ -69,6 +69,7 @@ export class BotServiceTest {
         if (!user) {
             // Create a new user if they don't exist
             user = this.usersRepository.create({
+                userName: ctx.from.username,
                 userId: ctx.from.id,
                 referrals: [],
             });
@@ -101,6 +102,7 @@ export class BotServiceTest {
         if (!referred) {
             // Create a new user if they don't exist
             referred = this.usersRepository.create({
+                userName: ctx.from.username,
                 userId: ctx.from.id,
                 referredBy: referrer.id,
                 referrals: [],
@@ -112,10 +114,10 @@ export class BotServiceTest {
             await this.usersRepository.save(referrer);
 
             // Notify referrer
-            await ctx.telegram.sendMessage(referrer.userId, `User ${referred.userId} joined using your referral code.`);
+            await ctx.telegram.sendMessage(referrer.userId, `User ${referred.userName} joined using your referral code.`);
         }
 
-        await ctx.reply(`You were referred by ${referrer.userId}`);
+        await ctx.reply(`You were referred by ${referrer.userName}`);
     }
 
     @Help()
